@@ -6,14 +6,38 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/5.0.0/sanitize.min.css" />
     <link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700|Roboto:400,700" rel="stylesheet">
     <style>
-        body {
+        *,
+        ::before,
+        ::after {
             font-family: 'Roboto', sans-serif;
-            margin-left: 50px;
-            background: #1c6c5e;
-            color: #f0f0f0;
+        }
+
+        body {
+            margin: 50px 0;
+        }
+
+        h1,
+        h2 {
+            margin: 0 50px;
+        }
+
+        .control {
+            margin: 30px 50px;
+        }
+
+        button {
+            font-size: 20px;
+            padding: 10px 20px;
+            border-radius: 50% 0;
         }
 
         pre {
+            background: #000;
+            color: #f0f0f0;
+            padding: 0 50px;
+        }
+
+        pre > code {
             font-family: 'Inconsolata';
         }
     </style>
@@ -23,9 +47,36 @@
     <h1>Web push sample</h1>
 </header>
 <main id="main" class="main">
+    <section class="control">
+        <button class="js-request">REQUEST</button>
+    </section>
     <section class="infomation">
         <h2 class="infomation__header">Infomation</h2>
-        <pre class="infomation__data"></pre>
+        <pre class="infomation__data">
+            <code>
+{
+    "env": {
+        "development": {
+            "presets": [
+                ["env", { "targets": { "browsers": "last 2 versions" } }]
+            ]
+        },
+        "production": {
+            "presets": [
+                ["env", {
+                    "targets": {
+                        "browsers": "last 2 versions",
+                        "uglify": true
+                    },
+                    "modules": false,
+                    "useBuiltIns": true
+                }]
+            ]
+        }
+    }
+}
+            </code>
+        </pre>
     </section>
 </main>
 
