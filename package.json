@@ -1,0 +1,41 @@
+{
+    "name": "webpush-sample",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "start": "cross-env NODE_ENV=development webpack-dev-server",
+        "prebuild": "yarn run lint",
+        "build": "run-s build:clean build:production",
+        "build:production": "cross-env NODE_ENV=production webpack",
+        "build:clean": "rimraf build",
+        "lint": "run-p lint:scripts",
+        "lint:scripts": "eslint --ext .js,.jsx source/"
+    },
+    "devDependencies": {
+        "babel-cli": "^6.24.1",
+        "babel-eslint": "^7.2.3",
+        "babel-loader": "^7.0.0",
+        "babel-preset-env": "^1.4.0",
+        "browser-sync": "^2.18.8",
+        "browser-sync-webpack-plugin": "^1.1.4",
+        "copy-webpack-plugin": "^4.0.1",
+        "cross-env": "^4.0.0",
+        "dotenv": "^4.0.0",
+        "eslint": "^3.19.0",
+        "eslint-config-airbnb": "^14.1.0",
+        "eslint-plugin-import": "^2.2.0",
+        "eslint-plugin-jsx-a11y": "^3.0.2 || ^4.0.0",
+        "eslint-plugin-react": "^6.9.0",
+        "npm-run-all": "^4.0.2",
+        "rimraf": "^2.6.1",
+        "uglifyjs-webpack-plugin": "^0.4.3",
+        "webpack": "^2.5.0",
+        "webpack-dev-server": "^2.4.5"
+    },
+    "dependencies": {
+        "babel-polyfill": "^6.23.0",
+        "date-fns": "^1.28.4",
+        "web-push": "^3.2.2"
+    }
+}

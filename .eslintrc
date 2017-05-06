@@ -1,0 +1,93 @@
+{
+    "extends": [
+        "airbnb"
+    ],
+
+    "env": {
+        "browser": true,
+        "node": true,
+        "es6": true,
+        "serviceworker": true
+    },
+
+    "plugins": [
+    ],
+
+    "parser": "babel-eslint",
+
+    "parserOptions": {
+    },
+
+    "settings": {
+    },
+
+    "globals": {
+        "browser": true
+    },
+
+    // 基本的にairbnbの設定はかなりキツイので緩める方向で行く。
+    "rules": {
+        // 1行につき1宣言 無効化 FLの流儀と合わない
+        "one-var": "off",
+        // コメント宣言の後ろに半角スペース 無効化 IntelliJのショートカットでコメントにした場合スペース入らないので合わない
+        "spaced-comment": "off",
+        // 1行あたりの最大文字数 120 ただしURLとかコメントとか改行で区切りづらいネタは見逃す
+        "max-len": ["error", 120, 2, {
+            "ignoreUrls": true,
+            "ignoreComments": true,
+            "ignoreRegExpLiterals": true,
+            "ignoreStrings": true,
+            "ignoreTemplateLiterals": true
+        }],
+        // 1行で一気に複数の代入を行うの禁止 無効化 わかるやろと
+        "no-multi-assign": "off",
+        // console.xxx禁止 許可
+        "no-console": "off",
+        // alert(, confirm, prompt)禁止 許可 便利だから使うぞ
+        "no-alert": "off",
+        // 未使用変数 警告 ただし、先頭に_のついている変数、引数はOKとする
+        "no-unused-vars": ["warn", {
+            "caughtErrors": "all",
+            "varsIgnorePattern": "^_",
+            "argsIgnorePattern": "^_"
+        }],
+        // 変数関数クラスを定義する前に使わない 変数以外無効
+        "no-use-before-define": ["error", {
+            "functions": false,
+            "classes": false
+        }],
+        // 三項演算子の連打を禁止する 無効化 JSXで使いたい場合がある
+        "no-nested-ternary": "off",
+        // underscore開始の変数やプロパティを禁止する 無効化 思うところあって。
+        "no-underscore-dangle": "off",
+        // アローファンクションの引数をカッコで囲むか 必要なときだけ
+        "arrow-parens": ["error", "as-needed"],
+        // thisを参照しないクラスメソッドはstaticでなければいけない 無効化 オブジェクト指向ってそういうもんではないと思う
+        "class-methods-use-this": "off",
+        // 無名関数を禁止する 無効化 面倒じゃん
+        "func-names": "off",
+        // オブジェクトや配列のラストの要素のケツに,を強制する 無効化 やっぱ抵抗ある
+        "comma-dangle": "off",
+        // importの重複を不許可 無効化 flowtypeのimport typeと相性が悪い
+        "no-duplicate-imports": "off",
+        // 関数宣言の直後に半角スペースを入れる
+        "space-before-function-paren": ["error", {
+            // 無名関数はないほうがよくない？
+            "anonymous": "never",
+            // ふつうの関数はあり
+            "named": "always",
+            // asyncかつアローファンクションはあり
+            "asyncArrow": "always"
+        }],
+        // 1ファイルに付きexportしてるのが1つだけの場合、default exportにしてもらう 無効化 ほっといてくれと。
+        "import/prefer-default-export": "off",
+        // フロント向けのライブラリがdevDependenciesに入ってたらダメ 無効化 テスト用のファイルの関係
+        "import/no-extraneous-dependencies": "off",
+        // importするときに拡張子をつけない 無効化 jsxはつけたい
+        "import/extensions": "off",
+        // divとかspanとかにマウスとかキーボードのイベントがセットされたら怒る 無効化 ほっといて
+        "jsx-a11y/no-static-element-interactions": "off",
+        // aタグのhrefが#だと怒る 無効化 別にいいじゃないか
+        "jsx-a11y/href-no-hash": "off"
+    }
+}
