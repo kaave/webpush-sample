@@ -4,6 +4,7 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
+        "push": "babel-node push",
         "start": "cross-env NODE_ENV=development webpack-dev-server",
         "prebuild": "yarn run lint",
         "build": "run-s build:clean build:production",
@@ -38,6 +39,9 @@
     "dependencies": {
         "babel-polyfill": "^6.23.0",
         "date-fns": "^1.28.4",
-        "highlight.js": "^9.11.0"
+        "highlight.js": "^9.11.0",
+        "urlsafe-base64": "^1.0.0",
+        "validator": "^7.0.0",
+        "web-push": "^3.2.2"
     }
 }

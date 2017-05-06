@@ -1,33 +1,31 @@
 import hljs from 'highlight.js';
 import 'highlight.js/styles/monokai.css';
 
-import * as Manager from './scripts/sw-manager';
+import { getRegister, getSubscriptionOrNull, subscribe } from './scripts/sw-manager';
+
+let buttonElement;
+let codeElement;
 
 window.addEventListener('DOMContentLoaded', () => {
-  const buttonElement = document.querySelector('.js-request');
+  buttonElement = document.querySelector('.js-request');
+  codeElement = document.querySelector('.js-code');
   buttonElement.addEventListener('click', async () => {
     await initPushWorker();
+    buttonElement.style.display = 'none';
   });
 });
 
 async function initPushWorker () {
   const publicKey = 'BIxbTMDKpqsEIv4GURJFIvacn0ojx6hVm66_bpYyvBpqlrW16hNboNE6yFcKNGsa-3ept34Jy-BNB6ftjwSpJVE';
-// private key memo: baG5zFzd027eHcz73DHxIl-7QazxY248R_CN_6b0e0E
 
-  const register = await Manager.getRegister({ filePath: '/sw.js' });
-  const subscription = await Manager.getSubscription({ register });
-  if (subscription) {
-    // 既にsubscribe済
-    setData({ data: JSON.stringify(subscription.toJSON(), null, '    ') });
-  } else {
-    // まだsubscribeしてないので、subscribeする
-    const subscriber = await Manager.subscribe({ register, publicKey });
-    setData({ data: JSON.stringify(subscriber.toJSON(), null, '    ') });
-  }
+  const register = await getRegister({ filePath: '/sw.js' });
+  const subscriptionOrNull = await getSubscriptionOrNull({ register });
+  const subscription = subscriptionOrNull || await subscribe({ register, publicKey });
+  setData({ json: JSON.stringify(subscription.toJSON(), null, '    ') });
 }
 
-function setData ({ data }) {
-  const element = document.querySelector('.js-code');
-  element.innerHTML = data;
+function setData ({ json }) {
+  codeElement.innerHTML = json;
   hljs.initHighlighting();
 }
+

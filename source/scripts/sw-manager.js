@@ -3,7 +3,7 @@ export async function getRegister ({ filePath }) {
   return register;
 }
 
-export async function getSubscription ({ register }) {
+export async function getSubscriptionOrNull ({ register }) {
   const subscription = await register.pushManager.getSubscription();
   console.log(subscription ? 'subscribed.' : 'NOT subscribed.');
   return subscription;
