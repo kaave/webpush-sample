@@ -1,12 +1,59 @@
+export async function getRegister ({ filePath }) {
+  const register = await navigator.serviceWorker.register(filePath);
+  return register;
+}
+
+export async function getSubscription ({ register }) {
+  const subscription = await register.pushManager.getSubscription();
+  console.log(subscription ? 'subscribed.' : 'NOT subscribed.');
+  return subscription;
+}
+
+export async function subscribe ({ register, publicKey }) {
+  const applicationServerKey = urlBase64ToUint8Array({ base64String: publicKey });
+  const subscription = await register.pushManager.subscribe({
+    userVisibleOnly: true,  // magic for Google Chrome
+    applicationServerKey
+  });
+  return subscription;
+}
+
+export function canUseServiceWorker () {
+  return navigator.serviceWorker != null;
+}
+
+export function canUsePushNotification () {
+  return window.pushManager != null;
+}
+
+export function isNotificationDenied () {
+  return Notification.permission === 'denied';
+}
+
+/*
+ * private
+ */
+function urlBase64ToUint8Array ({ base64String }) {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0, l = rawData.length; i < l; ++i) { // eslint-disable-line no-plusplus
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+
+  return outputArray;
+}
+
+/*
+ * memo
+ */
 const applicationServerPublicKey = 'BIxbTMDKpqsEIv4GURJFIvacn0ojx6hVm66_bpYyvBpqlrW16hNboNE6yFcKNGsa-3ept34Jy-BNB6ftjwSpJVE';
 // private key memo: baG5zFzd027eHcz73DHxIl-7QazxY248R_CN_6b0e0E
 
 export default class ServiceWorkerManager {
-  constructor ({ delegate } = {}) {
-    if (delegate) {
-      this.delegate = delegate;
-    }
-
+  constructor () {
     this.isSubscribed = false;
     this.regist();
   }
@@ -43,7 +90,7 @@ export default class ServiceWorkerManager {
   }
 
   subscription () {
-    const applicationServerKey = urlBase64ToUint8Array(applicationServerPublicKey);
+    const applicationServerKey = urlBase64ToUint8Array({ base64String: applicationServerPublicKey });
     this.register.pushManager.subscribe({
       userVisibleOnly: true,  // magic for Google Chrome
       applicationServerKey
@@ -76,32 +123,4 @@ export default class ServiceWorkerManager {
       this.delegate.onUpdateSubscription({ subscription });
     }
   }
-}
-
-export function canUseServiceWorker () {
-  return navigator.serviceWorker != null;
-}
-
-export function canUsePushNotification () {
-  return window.pushManager != null;
-}
-
-export function isNotificationDenied () {
-  return Notification.permission === 'denied';
-}
-
-/*
- * private
- */
-function urlBase64ToUint8Array (base64String) {
-  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
-  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-  const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
-
-  for (let i = 0; i < rawData.length; ++i) { // eslint-disable-line no-plusplus
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-
-  return outputArray;
 }

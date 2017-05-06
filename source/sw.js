@@ -1,5 +1,8 @@
 /* eslint-env serviceworker */
 
-import format from 'date-fns/format';
-
-self.addEventListener('install', () => console.log(`[${format(Date.now(), 'YYYY/MM/DD HH:mm:ss')}] Service worker install completed`));
+self.addEventListener('push', event => {
+  const title = 'Hello Nagoya.js';
+  const icon = '/icon.png';
+  const body = event.data.text();
+  event.waitUntil(self.registration.showNotification(title, { icon, body }));
+});

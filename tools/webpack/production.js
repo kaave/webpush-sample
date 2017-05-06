@@ -11,7 +11,7 @@ const plugins = [
   }),
   new webpack.LoaderOptionsPlugin({ debug: false }),
   new CopyWebpackPlugin(
-    [{ from: './source/index.html' }],
+    [{ from: 'assets' }, { from: './source/index.html' }],
     { ignore: ['.DS_Store'] }
   ),
   new UglifyJSPlugin()

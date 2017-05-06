@@ -13,7 +13,7 @@ const plugins = [
   new webpack.LoaderOptionsPlugin({ debug: true }),
   new webpack.HotModuleReplacementPlugin(),
   new CopyWebpackPlugin(
-    [{ from: './source/index.html' }],
+    [{ from: 'assets' }, { from: './source/index.html' }],
     { ignore: ['.DS_Store'] }
   ),
   new BrowserSyncPlugin(
