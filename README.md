@@ -7,8 +7,12 @@
 ```bash
 # install packages
 yarn
-# install sw
+# install sw & push subscription
 yarn start
+# add .env file
+cp .env.sample .env
+# edit .env
+vi .env
 # send push notification
 yarn push
 ```
@@ -20,6 +24,10 @@ yarn push
 npm i
 # install sw
 npm start
+# add .env file
+cp .env.sample .env
+# edit .env
+vi .env
 # send push notification
 npm run push
 ```
